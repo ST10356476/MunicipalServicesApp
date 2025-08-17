@@ -56,6 +56,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.sidebarPanel = new System.Windows.Forms.Panel();
             this.clockLabel = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
@@ -184,6 +185,8 @@
             // mainContentPanel
             // 
             this.mainContentPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
+            this.mainContentPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mainContentPanel.BackgroundImage")));
+            this.mainContentPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mainContentPanel.Controls.Add(this.footerPanel);
             this.mainContentPanel.Controls.Add(this.engagementPanel);
             this.mainContentPanel.Controls.Add(this.buttonsPanel);
@@ -207,7 +210,7 @@
             // footerLabel
             // 
             this.footerLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
-            this.footerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.footerLabel.ForeColor = System.Drawing.Color.Black;
             this.footerLabel.Location = new System.Drawing.Point(0, 5);
             this.footerLabel.Name = "footerLabel";
             this.footerLabel.Size = new System.Drawing.Size(720, 20);
@@ -381,6 +384,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.mainContentPanel);
@@ -389,6 +393,7 @@
             this.Controls.Add(this.mainMenuStrip);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

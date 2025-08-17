@@ -42,14 +42,6 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Windows Form Designer generated code
 
@@ -145,14 +137,14 @@
             this.formPanel.Controls.Add(this.locationLabel);
             this.formPanel.Location = new System.Drawing.Point(30, 100);
             this.formPanel.Name = "formPanel";
-            this.formPanel.Size = new System.Drawing.Size(640, 300);
+            this.formPanel.Size = new System.Drawing.Size(640, 350);
             this.formPanel.TabIndex = 1;
             // 
             // descriptionHelpLabel
             // 
             this.descriptionHelpLabel.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
             this.descriptionHelpLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.descriptionHelpLabel.Location = new System.Drawing.Point(20, 275);
+            this.descriptionHelpLabel.Location = new System.Drawing.Point(20, 405);
             this.descriptionHelpLabel.Name = "descriptionHelpLabel";
             this.descriptionHelpLabel.Size = new System.Drawing.Size(500, 15);
             this.descriptionHelpLabel.TabIndex = 9;
@@ -162,7 +154,7 @@
             // 
             this.categoryHelpLabel.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
             this.categoryHelpLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.categoryHelpLabel.Location = new System.Drawing.Point(20, 145);
+            this.categoryHelpLabel.Location = new System.Drawing.Point(21, 164);
             this.categoryHelpLabel.Name = "categoryHelpLabel";
             this.categoryHelpLabel.Size = new System.Drawing.Size(500, 15);
             this.categoryHelpLabel.TabIndex = 5;
@@ -172,20 +164,20 @@
             // 
             this.locationHelpLabel.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
             this.locationHelpLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.locationHelpLabel.Location = new System.Drawing.Point(20, 70);
+            this.locationHelpLabel.Location = new System.Drawing.Point(21, 73);
             this.locationHelpLabel.Name = "locationHelpLabel";
             this.locationHelpLabel.Size = new System.Drawing.Size(500, 15);
             this.locationHelpLabel.TabIndex = 2;
-            this.locationHelpLabel.Text = "Please be as specific as possible about the location";
+            this.locationHelpLabel.Text = "Start typing for location suggestions (minimum 3 characters)";
             // 
             // descriptionRichTextBox
             // 
             this.descriptionRichTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.descriptionRichTextBox.Location = new System.Drawing.Point(20, 195);
+            this.descriptionRichTextBox.Location = new System.Drawing.Point(20, 218);
             this.descriptionRichTextBox.MaxLength = 1000;
             this.descriptionRichTextBox.Name = "descriptionRichTextBox";
             this.descriptionRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.descriptionRichTextBox.Size = new System.Drawing.Size(500, 80);
+            this.descriptionRichTextBox.Size = new System.Drawing.Size(500, 110);
             this.descriptionRichTextBox.TabIndex = 8;
             this.descriptionRichTextBox.Text = "";
             // 
@@ -193,7 +185,7 @@
             // 
             this.characterCountLabel.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.characterCountLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.characterCountLabel.Location = new System.Drawing.Point(350, 170);
+            this.characterCountLabel.Location = new System.Drawing.Point(350, 193);
             this.characterCountLabel.Name = "characterCountLabel";
             this.characterCountLabel.Size = new System.Drawing.Size(170, 25);
             this.characterCountLabel.TabIndex = 7;
@@ -204,7 +196,7 @@
             // 
             this.descriptionLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.descriptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.descriptionLabel.Location = new System.Drawing.Point(20, 170);
+            this.descriptionLabel.Location = new System.Drawing.Point(20, 193);
             this.descriptionLabel.Name = "descriptionLabel";
             this.descriptionLabel.Size = new System.Drawing.Size(120, 25);
             this.descriptionLabel.TabIndex = 6;
@@ -214,17 +206,16 @@
             // 
             this.categoryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.categoryComboBox.Location = new System.Drawing.Point(20, 120);
+            this.categoryComboBox.Location = new System.Drawing.Point(20, 136);
             this.categoryComboBox.Name = "categoryComboBox";
             this.categoryComboBox.Size = new System.Drawing.Size(500, 25);
             this.categoryComboBox.TabIndex = 4;
-            this.categoryComboBox.SelectedIndexChanged += new System.EventHandler(this.categoryComboBox_SelectedIndexChanged);
             // 
             // categoryLabel
             // 
             this.categoryLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.categoryLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.categoryLabel.Location = new System.Drawing.Point(20, 95);
+            this.categoryLabel.Location = new System.Drawing.Point(20, 111);
             this.categoryLabel.Name = "categoryLabel";
             this.categoryLabel.Size = new System.Drawing.Size(100, 25);
             this.categoryLabel.TabIndex = 3;
@@ -258,7 +249,7 @@
             this.attachmentPanel.Controls.Add(this.clearAttachmentBtn);
             this.attachmentPanel.Controls.Add(this.attachMediaBtn);
             this.attachmentPanel.Controls.Add(this.attachmentLabel);
-            this.attachmentPanel.Location = new System.Drawing.Point(30, 420);
+            this.attachmentPanel.Location = new System.Drawing.Point(30, 470);
             this.attachmentPanel.Name = "attachmentPanel";
             this.attachmentPanel.Size = new System.Drawing.Size(640, 100);
             this.attachmentPanel.TabIndex = 2;
@@ -322,7 +313,7 @@
             this.progressPanel.Controls.Add(this.progressPercentLabel);
             this.progressPanel.Controls.Add(this.formProgressBar);
             this.progressPanel.Controls.Add(this.progressLabel);
-            this.progressPanel.Location = new System.Drawing.Point(30, 540);
+            this.progressPanel.Location = new System.Drawing.Point(30, 590);
             this.progressPanel.Name = "progressPanel";
             this.progressPanel.Size = new System.Drawing.Size(640, 60);
             this.progressPanel.TabIndex = 3;
@@ -361,7 +352,7 @@
             this.buttonPanel.Controls.Add(this.backBtn);
             this.buttonPanel.Controls.Add(this.clearBtn);
             this.buttonPanel.Controls.Add(this.submitBtn);
-            this.buttonPanel.Location = new System.Drawing.Point(30, 620);
+            this.buttonPanel.Location = new System.Drawing.Point(30, 670);
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(640, 60);
             this.buttonPanel.TabIndex = 4;
@@ -417,7 +408,7 @@
             this.footerPanel.BackColor = System.Drawing.Color.Transparent;
             this.footerPanel.Controls.Add(this.footerLabel);
             this.footerPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.footerPanel.Location = new System.Drawing.Point(0, 700);
+            this.footerPanel.Location = new System.Drawing.Point(0, 750);
             this.footerPanel.Name = "footerPanel";
             this.footerPanel.Size = new System.Drawing.Size(700, 30);
             this.footerPanel.TabIndex = 5;
@@ -438,7 +429,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
-            this.ClientSize = new System.Drawing.Size(700, 730);
+            this.ClientSize = new System.Drawing.Size(700, 780);
             this.Controls.Add(this.footerPanel);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.progressPanel);
