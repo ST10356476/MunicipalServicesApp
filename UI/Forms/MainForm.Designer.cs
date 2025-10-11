@@ -107,9 +107,10 @@
             // 
             // clockLabel
             // 
+            this.clockLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.clockLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.clockLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.clockLabel.Location = new System.Drawing.Point(20, 580);
+            this.clockLabel.Location = new System.Drawing.Point(20, 600);
             this.clockLabel.Name = "clockLabel";
             this.clockLabel.Size = new System.Drawing.Size(180, 60);
             this.clockLabel.TabIndex = 3;
@@ -124,7 +125,7 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(180, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 1.0";
+            this.versionLabel.Text = "Version 2.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // appTitleLabel
@@ -162,6 +163,7 @@
             // 
             // subtitleLabel
             // 
+            this.subtitleLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.subtitleLabel.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.subtitleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.subtitleLabel.Location = new System.Drawing.Point(30, 70);
@@ -173,6 +175,7 @@
             // 
             // titleLabel
             // 
+            this.titleLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold);
             this.titleLabel.ForeColor = System.Drawing.Color.White;
             this.titleLabel.Location = new System.Drawing.Point(30, 20);
@@ -209,17 +212,20 @@
             // 
             // footerLabel
             // 
+            this.footerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.footerLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
             this.footerLabel.ForeColor = System.Drawing.Color.Black;
-            this.footerLabel.Location = new System.Drawing.Point(0, 5);
+            this.footerLabel.Location = new System.Drawing.Point(0, 0);
             this.footerLabel.Name = "footerLabel";
-            this.footerLabel.Size = new System.Drawing.Size(720, 20);
+            this.footerLabel.Size = new System.Drawing.Size(720, 30);
             this.footerLabel.TabIndex = 0;
             this.footerLabel.Text = "© 2025 Municipal Services - Improving Citizen Engagement";
             this.footerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // engagementPanel
             // 
+            this.engagementPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.engagementPanel.BackColor = System.Drawing.Color.White;
             this.engagementPanel.Controls.Add(this.statsLabel);
             this.engagementPanel.Controls.Add(this.engagementProgressBar);
@@ -232,6 +238,8 @@
             // 
             // statsLabel
             // 
+            this.statsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.statsLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.statsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.statsLabel.Location = new System.Drawing.Point(30, 120);
@@ -243,6 +251,8 @@
             // 
             // engagementProgressBar
             // 
+            this.engagementProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.engagementProgressBar.Location = new System.Drawing.Point(60, 95);
             this.engagementProgressBar.Name = "engagementProgressBar";
             this.engagementProgressBar.Size = new System.Drawing.Size(560, 20);
@@ -251,6 +261,8 @@
             // 
             // engagementLabel
             // 
+            this.engagementLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.engagementLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.engagementLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.engagementLabel.Location = new System.Drawing.Point(30, 60);
@@ -262,6 +274,8 @@
             // 
             // engagementTitleLabel
             // 
+            this.engagementTitleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.engagementTitleLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.engagementTitleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
             this.engagementTitleLabel.Location = new System.Drawing.Point(30, 20);
@@ -273,6 +287,8 @@
             // 
             // buttonsPanel
             // 
+            this.buttonsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonsPanel.BackColor = System.Drawing.Color.Transparent;
             this.buttonsPanel.Controls.Add(this.serviceStatusBtn);
             this.buttonsPanel.Controls.Add(this.localEventsBtn);
@@ -284,6 +300,7 @@
             // 
             // serviceStatusBtn
             // 
+            this.serviceStatusBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.serviceStatusBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
             this.serviceStatusBtn.Enabled = false;
             this.serviceStatusBtn.FlatAppearance.BorderSize = 0;
@@ -299,8 +316,9 @@
             // 
             // localEventsBtn
             // 
-            this.localEventsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
-            this.localEventsBtn.Enabled = false;
+            this.localEventsBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.localEventsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.localEventsBtn.Enabled = true;
             this.localEventsBtn.FlatAppearance.BorderSize = 0;
             this.localEventsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.localEventsBtn.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
@@ -314,6 +332,7 @@
             // 
             // reportIssuesBtn
             // 
+            this.reportIssuesBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.reportIssuesBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.reportIssuesBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.reportIssuesBtn.FlatAppearance.BorderSize = 0;
@@ -384,7 +403,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.mainContentPanel);
@@ -392,12 +411,13 @@
             this.Controls.Add(this.sidebarPanel);
             this.Controls.Add(this.mainMenuStrip);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Municipal Services Portal - South Africa";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load_1);
             this.sidebarPanel.ResumeLayout(false);
             this.headerPanel.ResumeLayout(false);

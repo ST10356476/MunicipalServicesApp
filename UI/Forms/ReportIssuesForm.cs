@@ -646,6 +646,8 @@ namespace MunicipalServicesApp.UI.Forms
 
                 IssueSubmitted?.Invoke();
                 _hasUnsavedChanges = false;
+
+                // Close the form (will return to main menu)
                 this.Close();
             }
             catch (ValidationException ex)
@@ -710,7 +712,15 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // If embedded in parent form, close properly
+            if (!this.TopLevel)
+            {
+                this.Close();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void ReportIssuesForm_FormClosing(object sender, FormClosingEventArgs e)

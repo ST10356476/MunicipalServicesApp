@@ -20,24 +20,30 @@ namespace MunicipalServicesApp.UI.Forms
     {
         private readonly IssueService _issueService;
         private readonly EngagementService _engagementService;
+        private readonly EventService _eventService;
         private Timer clockTimer;
+
+        // Store child forms
+        private ReportIssuesForm _reportIssuesForm;
+        private LocalEventsForm _localEventsForm;
 
         public MainForm()
         {
             var issueRepository = new IssueRepository();
             _issueService = new IssueService(issueRepository);
             _engagementService = new EngagementService();
+            _eventService = new EventService();
 
             InitializeComponent();
             SetupStyling();
             SetupEventHandlers();
             SetupClock();
             UpdateEngagementDisplay();
+            UpdateEventNotifications();
         }
 
         private void SetupStyling()
         {
-            // Apply professional styling
             StyleHeaderPanel();
             StyleButtonsPanel();
             StyleEngagementPanel();
@@ -48,17 +54,15 @@ namespace MunicipalServicesApp.UI.Forms
         {
             headerPanel.Paint += (sender, e) =>
             {
-                // Clean gradient header
                 using (LinearGradientBrush brush = new LinearGradientBrush(
                     headerPanel.ClientRectangle,
-                    Color.FromArgb(41, 128, 185), // Professional blue
-                    Color.FromArgb(52, 152, 219), // Lighter blue
+                    Color.FromArgb(41, 128, 185),
+                    Color.FromArgb(52, 152, 219),
                     LinearGradientMode.Horizontal))
                 {
                     e.Graphics.FillRectangle(brush, headerPanel.ClientRectangle);
                 }
 
-                // Subtle bottom border
                 using (Pen pen = new Pen(Color.FromArgb(30, 100, 150), 1))
                 {
                     e.Graphics.DrawLine(pen, 0, headerPanel.Height - 1, headerPanel.Width, headerPanel.Height - 1);
@@ -68,11 +72,8 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void StyleButtonsPanel()
         {
-            // Style main action button
             StyleButton(reportIssuesBtn, Color.FromArgb(46, 204, 113), Color.FromArgb(39, 174, 96), true);
-
-            // Style secondary buttons
-            StyleButton(localEventsBtn, Color.FromArgb(149, 165, 166), Color.FromArgb(127, 140, 141), false);
+            StyleButton(localEventsBtn, Color.FromArgb(52, 152, 219), Color.FromArgb(41, 128, 185), true);
             StyleButton(serviceStatusBtn, Color.FromArgb(149, 165, 166), Color.FromArgb(127, 140, 141), false);
         }
 
@@ -84,15 +85,14 @@ namespace MunicipalServicesApp.UI.Forms
             btn.ForeColor = Color.White;
             btn.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btn.Cursor = isEnabled ? Cursors.Hand : Cursors.Default;
+            btn.Enabled = isEnabled;
 
-            // Simple hover effect for enabled buttons
             if (isEnabled)
             {
                 btn.MouseEnter += (s, e) => btn.BackColor = hoverColor;
                 btn.MouseLeave += (s, e) => btn.BackColor = normalColor;
             }
 
-            // Add subtle shadow
             btn.Paint += (s, e) =>
             {
                 if (isEnabled)
@@ -104,7 +104,6 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void DrawButtonShadow(Graphics g, Rectangle rect)
         {
-            // Simple drop shadow effect
             using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(30, Color.Black)))
             {
                 Rectangle shadowRect = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width, rect.Height);
@@ -116,26 +115,22 @@ namespace MunicipalServicesApp.UI.Forms
         {
             engagementPanel.Paint += (sender, e) =>
             {
-                // Clean white background with border
                 using (SolidBrush brush = new SolidBrush(Color.White))
                 {
                     e.Graphics.FillRectangle(brush, engagementPanel.ClientRectangle);
                 }
 
-                // Professional border
                 using (Pen pen = new Pen(Color.FromArgb(189, 195, 199), 2))
                 {
                     e.Graphics.DrawRectangle(pen, 0, 0, engagementPanel.Width - 1, engagementPanel.Height - 1);
                 }
 
-                // Top accent line
                 using (Pen accentPen = new Pen(Color.FromArgb(52, 152, 219), 4))
                 {
                     e.Graphics.DrawLine(accentPen, 0, 0, engagementPanel.Width, 0);
                 }
             };
 
-            // Style progress bar
             StyleProgressBar();
         }
 
@@ -146,13 +141,11 @@ namespace MunicipalServicesApp.UI.Forms
             {
                 Rectangle rect = engagementProgressBar.ClientRectangle;
 
-                // Background
                 using (SolidBrush bgBrush = new SolidBrush(Color.FromArgb(236, 240, 241)))
                 {
                     e.Graphics.FillRectangle(bgBrush, rect);
                 }
 
-                // Progress fill
                 if (engagementProgressBar.Value > 0)
                 {
                     int progressWidth = (int)((float)engagementProgressBar.Value / engagementProgressBar.Maximum * rect.Width);
@@ -165,7 +158,6 @@ namespace MunicipalServicesApp.UI.Forms
                     }
                 }
 
-                // Border
                 using (Pen borderPen = new Pen(Color.FromArgb(189, 195, 199), 1))
                 {
                     e.Graphics.DrawRectangle(borderPen, rect);
@@ -175,26 +167,24 @@ namespace MunicipalServicesApp.UI.Forms
 
         private Color GetProgressColor(int value)
         {
-            if (value < 30) return Color.FromArgb(231, 76, 60);    // Red
-            if (value < 70) return Color.FromArgb(243, 156, 18);   // Orange
-            return Color.FromArgb(46, 204, 113);                   // Green
+            if (value < 30) return Color.FromArgb(231, 76, 60);
+            if (value < 70) return Color.FromArgb(243, 156, 18);
+            return Color.FromArgb(46, 204, 113);
         }
 
         private void StyleSidebarPanel()
         {
             sidebarPanel.Paint += (sender, e) =>
             {
-                // Professional sidebar background
                 using (LinearGradientBrush brush = new LinearGradientBrush(
                     sidebarPanel.ClientRectangle,
-                    Color.FromArgb(44, 62, 80),   // Dark blue-gray
-                    Color.FromArgb(52, 73, 94),   // Lighter blue-gray
+                    Color.FromArgb(44, 62, 80),
+                    Color.FromArgb(52, 73, 94),
                     LinearGradientMode.Vertical))
                 {
                     e.Graphics.FillRectangle(brush, sidebarPanel.ClientRectangle);
                 }
 
-                // Right border
                 using (Pen pen = new Pen(Color.FromArgb(149, 165, 166), 1))
                 {
                     e.Graphics.DrawLine(pen, sidebarPanel.Width - 1, 0, sidebarPanel.Width - 1, sidebarPanel.Height);
@@ -217,32 +207,163 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void SetupEventHandlers()
         {
-            // Button click events
             reportIssuesBtn.Click += ReportIssuesBtn_Click;
-            localEventsBtn.Click += DisabledButton_Click;
+            localEventsBtn.Click += LocalEventsBtn_Click;
             serviceStatusBtn.Click += DisabledButton_Click;
 
-            // Form events
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
 
-            // Keyboard shortcuts
             this.KeyPreview = true;
             this.KeyDown += MainForm_KeyDown;
         }
 
+        // Modified to embed the form instead of showing as dialog
         private void ReportIssuesBtn_Click(object sender, EventArgs e)
         {
             try
             {
-                var reportForm = new ReportIssuesForm(_issueService, new FileService());
-                reportForm.IssueSubmitted += OnIssueSubmitted;
-                reportForm.ShowDialog();
+                // Create form if it doesn't exist
+                if (_reportIssuesForm == null || _reportIssuesForm.IsDisposed)
+                {
+                    _reportIssuesForm = new ReportIssuesForm(_issueService, new FileService());
+                    _reportIssuesForm.IssueSubmitted += OnIssueSubmitted;
+
+                    // Configure form for embedding with scrolling
+                    _reportIssuesForm.TopLevel = false;
+                    _reportIssuesForm.FormBorderStyle = FormBorderStyle.None;
+                    _reportIssuesForm.AutoScroll = true;
+                }
+
+                // Handle form closing event
+                _reportIssuesForm.FormClosed -= ReportIssuesForm_Closed; // Remove previous handler if any
+                _reportIssuesForm.FormClosed += ReportIssuesForm_Closed;
+
+                // Hide main content
+                HideMainContent();
+
+                // Add form to main form directly, below menu
+                if (!this.Controls.Contains(_reportIssuesForm))
+                {
+                    this.Controls.Add(_reportIssuesForm);
+                }
+                _reportIssuesForm.Dock = DockStyle.Fill;
+                _reportIssuesForm.Show();
+                _reportIssuesForm.BringToFront();
             }
             catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage($"An error occurred while opening the report form: {ex.Message}");
             }
+        }
+
+        private void ReportIssuesForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            ShowMainContent();
+        }
+
+        // Modified to embed the form instead of showing as dialog
+        private void LocalEventsBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Create form if it doesn't exist
+                if (_localEventsForm == null || _localEventsForm.IsDisposed)
+                {
+                    _localEventsForm = new LocalEventsForm();
+
+                    // Configure form for embedding with scrolling
+                    _localEventsForm.TopLevel = false;
+                    _localEventsForm.FormBorderStyle = FormBorderStyle.None;
+                    _localEventsForm.AutoScroll = true;
+                }
+
+                // Handle form closing event
+                _localEventsForm.FormClosed -= LocalEventsForm_Closed; // Remove previous handler if any
+                _localEventsForm.FormClosed += LocalEventsForm_Closed;
+
+                // Hide main content
+                HideMainContent();
+
+                // Add form to main form directly, below menu
+                if (!this.Controls.Contains(_localEventsForm))
+                {
+                    this.Controls.Add(_localEventsForm);
+                }
+                _localEventsForm.Dock = DockStyle.Fill;
+                _localEventsForm.Show();
+                _localEventsForm.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage($"An error occurred while opening the events page: {ex.Message}");
+            }
+        }
+
+        private void LocalEventsForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            ShowMainContent();
+            var engagementData = _engagementService.UpdateEngagement();
+            UpdateEngagementDisplay(engagementData);
+            UpdateStatistics();
+            UpdateEventNotifications();
+        }
+
+        private void HideMainContent()
+        {
+            // Just hide the panels, don't remove them
+            sidebarPanel.Visible = false;
+            headerPanel.Visible = false;
+            mainContentPanel.Visible = false;
+        }
+
+        private void ShowMainContent()
+        {
+            // Remove embedded forms first
+            if (_reportIssuesForm != null && this.Controls.Contains(_reportIssuesForm))
+            {
+                this.Controls.Remove(_reportIssuesForm);
+            }
+
+            if (_localEventsForm != null && this.Controls.Contains(_localEventsForm))
+            {
+                this.Controls.Remove(_localEventsForm);
+            }
+
+            // Restore main panels in the correct order
+            if (!this.Controls.Contains(mainContentPanel))
+            {
+                this.Controls.Add(mainContentPanel);
+                mainContentPanel.Dock = DockStyle.Fill;
+            }
+
+            if (!this.Controls.Contains(headerPanel))
+            {
+                this.Controls.Add(headerPanel);
+                headerPanel.Dock = DockStyle.Top;
+            }
+
+            if (!this.Controls.Contains(sidebarPanel))
+            {
+                this.Controls.Add(sidebarPanel);
+                sidebarPanel.Dock = DockStyle.Left;
+            }
+
+            // Make all panels visible
+            sidebarPanel.Visible = true;
+            headerPanel.Visible = true;
+            mainContentPanel.Visible = true;
+
+            // Show all controls within main content panel
+            foreach (Control control in mainContentPanel.Controls)
+            {
+                control.Visible = true;
+            }
+
+            // Refresh the layout
+            this.PerformLayout();
+            mainContentPanel.PerformLayout();
+            this.Refresh();
         }
 
         private void DisabledButton_Click(object sender, EventArgs e)
@@ -272,15 +393,41 @@ namespace MunicipalServicesApp.UI.Forms
                 engagementProgressBar.Value = engagementData.Level;
                 engagementLabel.Text = engagementData.Message;
 
-                // Update label color based on engagement level
                 engagementLabel.ForeColor = GetProgressColor(engagementData.Level);
 
-                // Force repaint of progress bar
                 engagementProgressBar.Invalidate();
             }
             catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage($"An error occurred while updating engagement display: {ex.Message}");
+            }
+        }
+
+        private void UpdateEventNotifications()
+        {
+            try
+            {
+                var pendingNotifications = _eventService.GetPendingNotificationCount();
+                var upcomingEvents = _eventService.GetUpcomingEvents(3);
+
+                var eventInfo = upcomingEvents.Count > 0
+                    ? $" | Next Event: {upcomingEvents[0].Title} on {upcomingEvents[0].Date:MMM dd}"
+                    : " | No upcoming events";
+
+                var currentStatsText = statsLabel.Text;
+                if (currentStatsText.Contains("|"))
+                {
+                    var basePart = currentStatsText.Split('|')[0];
+                    statsLabel.Text = basePart + eventInfo;
+                }
+                else
+                {
+                    statsLabel.Text = currentStatsText + eventInfo;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error updating event notifications: {ex.Message}");
             }
         }
 
@@ -290,8 +437,9 @@ namespace MunicipalServicesApp.UI.Forms
             {
                 var totalReports = _issueService.GetTotalSubmittedIssues();
                 var engagementLevel = engagementProgressBar.Value;
+                var eventStats = _eventService.GetEventStatistics();
 
-                statsLabel.Text = $"Reports Submitted: {totalReports} | Engagement Level: {engagementLevel}%";
+                statsLabel.Text = $"Reports Submitted: {totalReports} | Engagement Level: {engagementLevel}% | Total Events: {eventStats["TotalEvents"]}";
             }
             catch (Exception ex)
             {
@@ -302,12 +450,15 @@ namespace MunicipalServicesApp.UI.Forms
         private void ShowAbout(object sender, EventArgs e)
         {
             var aboutMessage = "Municipal Services Application\n" +
-                              "Version 1.0 - Professional Edition\n\n" +
+                              "Version 2.0 - Professional Edition\n\n" +
                               "Developed for South African Municipal Services\n" +
                               "Streamlining citizen engagement and service delivery\n\n" +
                               "Features:\n" +
                               "• Report Municipal Issues\n" +
+                              "• Local Events and Announcements\n" +
                               "• Community Engagement Tracking\n" +
+                              "• Smart Recommendations System\n" +
+                              "• Advanced Search and Filtering\n" +
                               "• Professional User Interface\n" +
                               "• Sustainable Design\n\n" +
                               "© 2025 Municipal Services Application";
@@ -326,8 +477,20 @@ namespace MunicipalServicesApp.UI.Forms
                                  "4. Provide detailed description\n" +
                                  "5. Optionally attach media/documents\n" +
                                  "6. Click 'Submit Report'\n\n" +
+                                 "How to Use Local Events:\n" +
+                                 "1. Click 'Local Events & Announcements' button\n" +
+                                 "2. Browse upcoming events or search for specific events\n" +
+                                 "3. Use filters to narrow down results by category, date, or priority\n" +
+                                 "4. View event details by selecting an event\n" +
+                                 "5. Register for events by double-clicking\n" +
+                                 "6. Check recommendations based on your interests\n" +
+                                 "7. View recently viewed events and announcements\n\n" +
+                                 "Advanced Features:\n" +
+                                 "• Search functionality with intelligent recommendations\n" +
+                                 "• Priority-based event organization\n" +
+                                 "• Category and location-based filtering\n" +
+                                 "• Real-time statistics and analytics\n\n" +
                                  "Features Coming Soon:\n" +
-                                 "• Local Events and Announcements\n" +
                                  "• Service Request Status Tracking\n\n" +
                                  "The engagement meter shows community participation levels.\n" +
                                  "Thank you for helping improve our community!";
@@ -358,13 +521,20 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Show welcome message
-            var welcomeMessage = "Welcome to the Municipal Services Application!\n\n" +
+            var welcomeMessage = "Welcome to the Municipal Services Application v2.0!\n\n" +
                                "This platform helps you:\n" +
                                "• Report municipal issues in your area\n" +
+                               "• Discover local events and announcements\n" +
                                "• Track community engagement\n" +
-                               "• Access municipal services efficiently\n\n" +
-                               "Click 'Report Issues' to get started!";
+                               "• Access municipal services efficiently\n" +
+                               "• Get personalized recommendations\n\n" +
+                               "New in Version 2.0:\n" +
+                               "• Local Events and Announcements feature\n" +
+                               "• Advanced search and filtering\n" +
+                               "• Smart recommendation system\n" +
+                               "• Enhanced user experience\n\n" +
+                               "Click 'Report Issues' to report problems or\n" +
+                               "'Local Events & Announcements' to discover community events!";
 
             MessageBox.Show(welcomeMessage, "Welcome!",
                           MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -382,6 +552,10 @@ namespace MunicipalServicesApp.UI.Forms
                     ReportIssuesBtn_Click(null, null);
                     e.Handled = true;
                     break;
+                case Keys.Control | Keys.E:
+                    LocalEventsBtn_Click(null, null);
+                    e.Handled = true;
+                    break;
                 case Keys.Alt | Keys.F4:
                 case Keys.Escape:
                     this.Close();
@@ -390,7 +564,6 @@ namespace MunicipalServicesApp.UI.Forms
             }
         }
 
-        // Menu event handlers
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
