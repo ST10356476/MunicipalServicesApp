@@ -54,6 +54,7 @@
     <StartupObject>MunicipalServicesApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -109,10 +110,13 @@
     <Compile Include="Common\CategoryProvider.cs" />
     <Compile Include="Common\Exceptions\ValidationException.cs" />
     <Compile Include="Data\Interfaces\IIssueRepository.cs" />
+    <Compile Include="Data\Interfaces\IServiceRequestRepository.cs" />
     <Compile Include="Data\Repositories\IssueRepository.cs" />
+    <Compile Include="Data\Repositories\ServiceRequestRepository.cs" />
     <Compile Include="Models\EngangementData.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\ServiceRequest.cs" />
     <Compile Include="Models\ValidationResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="Services\Business\EngagementService.cs" />
     <Compile Include="Services\Business\EventService.cs" />
     <Compile Include="Services\Business\IssueServices.cs" />
+    <Compile Include="Services\Business\ServiceRequestService.cs" />
     <Compile Include="Services\Infrastructure\FileService.cs" />
     <Compile Include="UI\Forms\LocalEventsForm.cs">
       <SubType>Form</SubType>
@@ -139,7 +144,14 @@
     <Compile Include="UI\Forms\ReportIssuesForm.Designer.cs">
       <DependentUpon>ReportIssuesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\ServiceRequestStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ServiceRequestStatusForm.Designer.cs">
+      <DependentUpon>ServiceRequestStatusForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Helpers\UIHelper.cs" />
+    <Compile Include="Utilities\AdvancedDataStructures.cs" />
     <Compile Include="Utilities\DataStructuresDemo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

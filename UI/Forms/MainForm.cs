@@ -21,11 +21,12 @@ namespace MunicipalServicesApp.UI.Forms
         private readonly IssueService _issueService;
         private readonly EngagementService _engagementService;
         private readonly EventService _eventService;
-        private Timer clockTimer;
 
         // Store child forms
         private ReportIssuesForm _reportIssuesForm;
         private LocalEventsForm _localEventsForm;
+        private ServiceRequestStatusForm _serviceRequestStatusForm;
+        private Timer clockTimer;
 
         public MainForm()
         {
@@ -74,7 +75,7 @@ namespace MunicipalServicesApp.UI.Forms
         {
             StyleButton(reportIssuesBtn, Color.FromArgb(46, 204, 113), Color.FromArgb(39, 174, 96), true);
             StyleButton(localEventsBtn, Color.FromArgb(52, 152, 219), Color.FromArgb(41, 128, 185), true);
-            StyleButton(serviceStatusBtn, Color.FromArgb(149, 165, 166), Color.FromArgb(127, 140, 141), false);
+            StyleButton(serviceStatusBtn, Color.FromArgb(155, 89, 182), Color.FromArgb(142, 68, 173), true);
         }
 
         private void StyleButton(Button btn, Color normalColor, Color hoverColor, bool isEnabled)
@@ -209,7 +210,7 @@ namespace MunicipalServicesApp.UI.Forms
         {
             reportIssuesBtn.Click += ReportIssuesBtn_Click;
             localEventsBtn.Click += LocalEventsBtn_Click;
-            serviceStatusBtn.Click += DisabledButton_Click;
+            serviceStatusBtn.Click += ServiceStatusBtn_Click;
 
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
@@ -218,7 +219,6 @@ namespace MunicipalServicesApp.UI.Forms
             this.KeyDown += MainForm_KeyDown;
         }
 
-        // Modified to embed the form instead of showing as dialog
         private void ReportIssuesBtn_Click(object sender, EventArgs e)
         {
             try
@@ -236,7 +236,7 @@ namespace MunicipalServicesApp.UI.Forms
                 }
 
                 // Handle form closing event
-                _reportIssuesForm.FormClosed -= ReportIssuesForm_Closed; // Remove previous handler if any
+                _reportIssuesForm.FormClosed -= ReportIssuesForm_Closed;
                 _reportIssuesForm.FormClosed += ReportIssuesForm_Closed;
 
                 // Hide main content
@@ -262,7 +262,6 @@ namespace MunicipalServicesApp.UI.Forms
             ShowMainContent();
         }
 
-        // Modified to embed the form instead of showing as dialog
         private void LocalEventsBtn_Click(object sender, EventArgs e)
         {
             try
@@ -279,7 +278,7 @@ namespace MunicipalServicesApp.UI.Forms
                 }
 
                 // Handle form closing event
-                _localEventsForm.FormClosed -= LocalEventsForm_Closed; // Remove previous handler if any
+                _localEventsForm.FormClosed -= LocalEventsForm_Closed;
                 _localEventsForm.FormClosed += LocalEventsForm_Closed;
 
                 // Hide main content
@@ -309,6 +308,48 @@ namespace MunicipalServicesApp.UI.Forms
             UpdateEventNotifications();
         }
 
+        private void ServiceStatusBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Create form if it doesn't exist
+                if (_serviceRequestStatusForm == null || _serviceRequestStatusForm.IsDisposed)
+                {
+                    _serviceRequestStatusForm = new ServiceRequestStatusForm();
+
+                    // Configure form for embedding with scrolling
+                    _serviceRequestStatusForm.TopLevel = false;
+                    _serviceRequestStatusForm.FormBorderStyle = FormBorderStyle.None;
+                    _serviceRequestStatusForm.AutoScroll = true;
+                }
+
+                // Handle form closing event
+                _serviceRequestStatusForm.FormClosed -= ServiceRequestStatusForm_Closed;
+                _serviceRequestStatusForm.FormClosed += ServiceRequestStatusForm_Closed;
+
+                // Hide main content
+                HideMainContent();
+
+                // Add form to main form directly, below menu
+                if (!this.Controls.Contains(_serviceRequestStatusForm))
+                {
+                    this.Controls.Add(_serviceRequestStatusForm);
+                }
+                _serviceRequestStatusForm.Dock = DockStyle.Fill;
+                _serviceRequestStatusForm.Show();
+                _serviceRequestStatusForm.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage($"An error occurred while opening the service status: {ex.Message}");
+            }
+        }
+
+        private void ServiceRequestStatusForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            ShowMainContent();
+        }
+
         private void HideMainContent()
         {
             // Just hide the panels, don't remove them
@@ -328,6 +369,11 @@ namespace MunicipalServicesApp.UI.Forms
             if (_localEventsForm != null && this.Controls.Contains(_localEventsForm))
             {
                 this.Controls.Remove(_localEventsForm);
+            }
+
+            if (_serviceRequestStatusForm != null && this.Controls.Contains(_serviceRequestStatusForm))
+            {
+                this.Controls.Remove(_serviceRequestStatusForm);
             }
 
             // Restore main panels in the correct order
@@ -364,11 +410,6 @@ namespace MunicipalServicesApp.UI.Forms
             this.PerformLayout();
             mainContentPanel.PerformLayout();
             this.Refresh();
-        }
-
-        private void DisabledButton_Click(object sender, EventArgs e)
-        {
-            UIHelper.ShowComingSoonMessage();
         }
 
         private void OnIssueSubmitted()
@@ -450,17 +491,24 @@ namespace MunicipalServicesApp.UI.Forms
         private void ShowAbout(object sender, EventArgs e)
         {
             var aboutMessage = "Municipal Services Application\n" +
-                              "Version 2.0 - Professional Edition\n\n" +
+                              "Version 3.0 - Advanced Edition\n\n" +
                               "Developed for South African Municipal Services\n" +
                               "Streamlining citizen engagement and service delivery\n\n" +
                               "Features:\n" +
                               "• Report Municipal Issues\n" +
                               "• Local Events and Announcements\n" +
+                              "• Service Request Status Tracking\n" +
                               "• Community Engagement Tracking\n" +
                               "• Smart Recommendations System\n" +
                               "• Advanced Search and Filtering\n" +
                               "• Professional User Interface\n" +
                               "• Sustainable Design\n\n" +
+                              "Advanced Data Structures:\n" +
+                              "• Trees, BST, AVL Trees\n" +
+                              "• Heaps and Priority Queues\n" +
+                              "• Graphs and Graph Algorithms\n" +
+                              "• Hash Tables and Dictionaries\n" +
+                              "• Sets and Advanced Collections\n\n" +
                               "© 2025 Municipal Services Application";
 
             MessageBox.Show(aboutMessage, "About Municipal Services Application",
@@ -485,13 +533,19 @@ namespace MunicipalServicesApp.UI.Forms
                                  "5. Register for events by double-clicking\n" +
                                  "6. Check recommendations based on your interests\n" +
                                  "7. View recently viewed events and announcements\n\n" +
+                                 "How to Track Service Requests:\n" +
+                                 "1. Click 'Service Request Status' button\n" +
+                                 "2. View all your submitted service requests\n" +
+                                 "3. Search for specific requests\n" +
+                                 "4. Filter by status or priority\n" +
+                                 "5. Track request progress with unique IDs\n" +
+                                 "6. View advanced data structure visualizations\n\n" +
                                  "Advanced Features:\n" +
                                  "• Search functionality with intelligent recommendations\n" +
-                                 "• Priority-based event organization\n" +
+                                 "• Priority-based event and request organization\n" +
                                  "• Category and location-based filtering\n" +
-                                 "• Real-time statistics and analytics\n\n" +
-                                 "Features Coming Soon:\n" +
-                                 "• Service Request Status Tracking\n\n" +
+                                 "• Real-time statistics and analytics\n" +
+                                 "• Advanced data structure visualizations\n\n" +
                                  "The engagement meter shows community participation levels.\n" +
                                  "Thank you for helping improve our community!";
 
@@ -521,20 +575,22 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var welcomeMessage = "Welcome to the Municipal Services Application v2.0!\n\n" +
+            var welcomeMessage = "Welcome to the Municipal Services Application v3.0!\n\n" +
                                "This platform helps you:\n" +
                                "• Report municipal issues in your area\n" +
                                "• Discover local events and announcements\n" +
-                               "• Track community engagement\n" +
+                               "• Track service request status and progress\n" +
+                               "• Monitor community engagement\n" +
                                "• Access municipal services efficiently\n" +
                                "• Get personalized recommendations\n\n" +
-                               "New in Version 2.0:\n" +
-                               "• Local Events and Announcements feature\n" +
-                               "• Advanced search and filtering\n" +
-                               "• Smart recommendation system\n" +
+                               "New in Version 3.0:\n" +
+                               "• Service Request Status tracking\n" +
+                               "• Advanced data structure implementations\n" +
+                               "• Graph and tree visualizations\n" +
+                               "• Priority-based request management\n" +
                                "• Enhanced user experience\n\n" +
-                               "Click 'Report Issues' to report problems or\n" +
-                               "'Local Events & Announcements' to discover community events!";
+                               "Click any button to get started!\n" +
+                               "Use F1 for help at any time.";
 
             MessageBox.Show(welcomeMessage, "Welcome!",
                           MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -554,6 +610,10 @@ namespace MunicipalServicesApp.UI.Forms
                     break;
                 case Keys.Control | Keys.E:
                     LocalEventsBtn_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case Keys.Control | Keys.S:
+                    ServiceStatusBtn_Click(null, null);
                     e.Handled = true;
                     break;
                 case Keys.Alt | Keys.F4:
@@ -581,7 +641,7 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void MainForm_Load_1(object sender, EventArgs e)
         {
-
+            // Initialization code if needed
         }
     }
 }

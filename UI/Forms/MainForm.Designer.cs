@@ -125,7 +125,7 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(180, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 2.0";
+            this.versionLabel.Text = "Version 3.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // appTitleLabel
@@ -301,8 +301,8 @@
             // serviceStatusBtn
             // 
             this.serviceStatusBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.serviceStatusBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
-            this.serviceStatusBtn.Enabled = false;
+            this.serviceStatusBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
+            this.serviceStatusBtn.Enabled = true;
             this.serviceStatusBtn.FlatAppearance.BorderSize = 0;
             this.serviceStatusBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.serviceStatusBtn.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
