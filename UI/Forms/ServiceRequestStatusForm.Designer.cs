@@ -15,8 +15,8 @@ namespace MunicipalServicesApp.UI.Forms
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button clearSearchButton;
-        private System.Windows.Forms.Button trackRequestButton; // Moved to top
-        private System.Windows.Forms.Button refreshButton; // Moved to top
+        private System.Windows.Forms.Button trackRequestButton; 
+        private System.Windows.Forms.Button refreshButton; 
 
         private System.Windows.Forms.Panel filterPanel;
         private System.Windows.Forms.ComboBox statusFilterComboBox;
@@ -39,7 +39,7 @@ namespace MunicipalServicesApp.UI.Forms
         private System.Windows.Forms.Button showHeapButton;
 
         private System.Windows.Forms.Panel buttonPanel;
-        private System.Windows.Forms.Button backButton; // Only back button remains at bottom
+        private System.Windows.Forms.Button backButton; 
 
         private System.Windows.Forms.Panel statsPanel;
         private System.Windows.Forms.Label statsLabel;
@@ -64,8 +64,8 @@ namespace MunicipalServicesApp.UI.Forms
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.clearSearchButton = new System.Windows.Forms.Button();
-            this.trackRequestButton = new System.Windows.Forms.Button(); // Moved to top
-            this.refreshButton = new System.Windows.Forms.Button(); // Moved to top
+            this.trackRequestButton = new System.Windows.Forms.Button(); 
+            this.refreshButton = new System.Windows.Forms.Button(); 
 
             this.filterPanel = new System.Windows.Forms.Panel();
             this.statusFilterComboBox = new System.Windows.Forms.ComboBox();
@@ -88,7 +88,7 @@ namespace MunicipalServicesApp.UI.Forms
             this.showHeapButton = new System.Windows.Forms.Button();
 
             this.buttonPanel = new System.Windows.Forms.Panel();
-            this.backButton = new System.Windows.Forms.Button(); // Only back button remains
+            this.backButton = new System.Windows.Forms.Button(); 
 
             this.statsPanel = new System.Windows.Forms.Panel();
             this.statsLabel = new System.Windows.Forms.Label();
@@ -126,7 +126,7 @@ namespace MunicipalServicesApp.UI.Forms
             this.mainPanel.Size = new System.Drawing.Size(1200, 650);
             this.mainPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
-            // Search Panel - Now includes action buttons
+            // Search Panel (includes action buttons)
             this.searchPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.searchPanel.Location = new System.Drawing.Point(20, 10);
             this.searchPanel.Size = new System.Drawing.Size(1160, 50);
@@ -153,7 +153,7 @@ namespace MunicipalServicesApp.UI.Forms
             this.clearSearchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearSearchButton.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
-            // Action buttons moved to top right
+            // Action buttons 
             this.trackRequestButton.Location = new System.Drawing.Point(850, 12);
             this.trackRequestButton.Size = new System.Drawing.Size(120, 25);
             this.trackRequestButton.Text = "Track Request";
@@ -295,7 +295,7 @@ namespace MunicipalServicesApp.UI.Forms
             this.visualizationPanel.Controls.Add(this.showGraphButton);
             this.visualizationPanel.Controls.Add(this.showHeapButton);
 
-            // Button Panel - Now only contains Back button
+            // Button Panel
             this.buttonPanel.BackColor = System.Drawing.Color.Transparent;
             this.buttonPanel.Location = new System.Drawing.Point(20, 600);
             this.buttonPanel.Size = new System.Drawing.Size(1160, 50);

@@ -7,7 +7,7 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        // Form Controls - Clean Professional Design
+        // Form Controls
         private System.Windows.Forms.Panel sidebarPanel;
         private System.Windows.Forms.Label logoLabel;
         private System.Windows.Forms.Label appTitleLabel;
@@ -48,7 +48,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Windows Form Designer code
 
         /// <summary>
         /// Required method for Designer support - do not modify

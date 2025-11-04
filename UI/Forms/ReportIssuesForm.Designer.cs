@@ -7,7 +7,7 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        // Form Controls - Professional Clean Design
+        // Form Controls
         private System.Windows.Forms.Panel headerPanel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label subtitleLabel;
@@ -43,7 +43,7 @@
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 
-        #region Windows Form Designer generated code
+        #region Windows Form Designer code
 
         /// <summary>
         /// Required method for Designer support - do not modify

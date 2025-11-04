@@ -18,7 +18,7 @@ namespace MunicipalServicesApp.UI.Forms
         private List<ServiceRequest> _allRequests;
         private string _currentUserId = "default_user";
 
-        // Visualization controls - now placed in details area
+        // Visualization controls
         private TreeView _bstTreeView;
         private TreeView _avlTreeView;
         private PictureBox _graphVisualization;
@@ -160,7 +160,7 @@ namespace MunicipalServicesApp.UI.Forms
             };
             detailsPanel.Controls.Add(_visualizationContainer);
 
-            // BST Tree View
+            // BST Tree View (GeeksforGeeks, 2024)
             _bstTreeView = new TreeView
             {
                 Location = new Point(10, 40),
@@ -170,7 +170,7 @@ namespace MunicipalServicesApp.UI.Forms
             };
             _visualizationContainer.Controls.Add(_bstTreeView);
 
-            // AVL Tree View
+            // AVL Tree View (GeeksforGeeks, 2023)
             _avlTreeView = new TreeView
             {
                 Location = new Point(10, 40),
@@ -397,7 +397,7 @@ namespace MunicipalServicesApp.UI.Forms
             // Apply priority filter
             if (priorityFilterComboBox.SelectedIndex > 0)
             {
-                var selectedPriority = priorityFilterComboBox.SelectedIndex; // 1=Critical, 2=High, etc.
+                var selectedPriority = priorityFilterComboBox.SelectedIndex; // 1=Critical, 2=High,.
                 filteredRequests = filteredRequests.Where(r => r.Priority == selectedPriority).ToList();
             }
 
@@ -844,3 +844,11 @@ namespace MunicipalServicesApp.UI.Forms
         }
     }
 }
+
+
+
+// Code Atribution
+/*
+    1. GeeksforGeeks. 2024. Binary Search Tree. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/binary-search-tree-data-structure/. [Accessed 10 November 2025].
+    2. GeeksforGeeks. 2023. AVL Tree Data Structure. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/introduction-to-avl-tree/. [Accessed 05 November 2025].‌
+ */

@@ -206,7 +206,7 @@ namespace MunicipalServicesApp.Data.Structures
             }
         }
 
-        // AVL Tree Node (non-generic version)
+        // AVL Tree Node (non-generic version) - (GeeksforGeeks, 2017).
         public class AVLTreeNode
         {
             public ServiceRequest Data { get; set; }
@@ -456,3 +456,9 @@ namespace MunicipalServicesApp.Data.Structures
         }
     }
 }
+
+
+// Code Atribution
+/*
+    1. GeeksforGeeks. 2017. Count greater nodes in AVL tree. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/dsa/count-greater-nodes-in-avl-tree/ [Accessed 10 Nov. 2025].
+ */

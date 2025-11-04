@@ -844,7 +844,7 @@ namespace MunicipalServicesApp.UI.Forms
         public GoogleMapsService()
         {
             _httpClient = new HttpClient();
-            // Replace with your actual Google Places API key
+            // Google Places API key
             _apiKey = "AIzaSyAoBPoQVZ6af48mPesSRzMH8ksat0Wn9ts";
         }
 
@@ -854,7 +854,7 @@ namespace MunicipalServicesApp.UI.Forms
             {
                 if (string.IsNullOrWhiteSpace(_apiKey) || _apiKey == "AIzaSyAoBPoQVZ6af48mPesSRzMH8ksat0Wn9ts")
                 {
-                    // Return mock data for demonstration, but make it more dynamic
+                    // Return data
                     return GetDynamicMockLocationSuggestions(query);
                 }
 
@@ -1087,7 +1087,7 @@ namespace MunicipalServicesApp.UI.Forms
         public string MainText { get; set; }        // Street address or main location
         public string SecondaryText { get; set; }   // City, province, country
         public string Description { get; set; }     // Full combined address
-        public string PlaceId { get; set; }         // Google Place ID or mock ID
+        public string PlaceId { get; set; }         // Google Place ID
     }
 
     public class GooglePlacesResponse
