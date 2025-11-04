@@ -1,5 +1,4 @@
-﻿// ServiceRequestStatusForm.cs
-using MunicipalServicesApp.Models;
+﻿using MunicipalServicesApp.Models;
 using MunicipalServicesApp.Services.Business;
 using MunicipalServicesApp.Data.Repositories;
 using MunicipalServicesApp.UI.Helpers;
@@ -19,10 +18,11 @@ namespace MunicipalServicesApp.UI.Forms
         private List<ServiceRequest> _allRequests;
         private string _currentUserId = "default_user";
 
-        // Tree visualization
+        // Visualization controls - now placed in details area
         private TreeView _bstTreeView;
         private TreeView _avlTreeView;
         private PictureBox _graphVisualization;
+        private Panel _visualizationContainer;
 
         public ServiceRequestStatusForm()
         {
@@ -42,7 +42,7 @@ namespace MunicipalServicesApp.UI.Forms
             StyleHeaderPanel();
             StyleMainPanel();
             StyleDetailsPanel();
-            StyleVisualizationPanel();
+            StyleVisualizationContainer();
         }
 
         private void StyleHeaderPanel()
@@ -97,22 +97,24 @@ namespace MunicipalServicesApp.UI.Forms
             };
         }
 
-        private void StyleVisualizationPanel()
+        private void StyleVisualizationContainer()
         {
-            visualizationPanel.Paint += (sender, e) =>
+            if (_visualizationContainer == null) return;
+
+            _visualizationContainer.Paint += (sender, e) =>
             {
                 using (LinearGradientBrush brush = new LinearGradientBrush(
-                    visualizationPanel.ClientRectangle,
+                    _visualizationContainer.ClientRectangle,
                     Color.FromArgb(236, 240, 241),
                     Color.FromArgb(248, 249, 250),
                     LinearGradientMode.Vertical))
                 {
-                    e.Graphics.FillRectangle(brush, visualizationPanel.ClientRectangle);
+                    e.Graphics.FillRectangle(brush, _visualizationContainer.ClientRectangle);
                 }
 
                 using (Pen pen = new Pen(Color.FromArgb(52, 152, 219), 2))
                 {
-                    e.Graphics.DrawLine(pen, 0, 0, visualizationPanel.Width, 0);
+                    e.Graphics.DrawLine(pen, 0, 0, _visualizationContainer.Width, 0);
                 }
             };
         }
@@ -141,41 +143,68 @@ namespace MunicipalServicesApp.UI.Forms
 
             // Form events
             this.Load += ServiceRequestStatusForm_Load;
+            this.Resize += ServiceRequestStatusForm_Resize;
             this.KeyPreview = true;
             this.KeyDown += ServiceRequestStatusForm_KeyDown;
         }
 
         private void InitializeAdvancedVisualizations()
         {
+            // Create visualization container in the details area
+            _visualizationContainer = new Panel
+            {
+                Location = new Point(10, 10),
+                Size = new Size(detailsPanel.Width - 20, detailsPanel.Height - 20),
+                Visible = false,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
+            };
+            detailsPanel.Controls.Add(_visualizationContainer);
+
             // BST Tree View
             _bstTreeView = new TreeView
             {
-                Location = new Point(20, 50),
-                Size = new Size(300, 200),
-                Visible = false
+                Location = new Point(10, 40),
+                Size = new Size(_visualizationContainer.Width - 20, _visualizationContainer.Height - 50),
+                Visible = false,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
             };
-            visualizationPanel.Controls.Add(_bstTreeView);
+            _visualizationContainer.Controls.Add(_bstTreeView);
 
             // AVL Tree View
             _avlTreeView = new TreeView
             {
-                Location = new Point(20, 50),
-                Size = new Size(300, 200),
-                Visible = false
+                Location = new Point(10, 40),
+                Size = new Size(_visualizationContainer.Width - 20, _visualizationContainer.Height - 50),
+                Visible = false,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
             };
-            visualizationPanel.Controls.Add(_avlTreeView);
+            _visualizationContainer.Controls.Add(_avlTreeView);
 
             // Graph Visualization
             _graphVisualization = new PictureBox
             {
-                Location = new Point(20, 50),
-                Size = new Size(400, 300),
+                Location = new Point(10, 40),
+                Size = new Size(_visualizationContainer.Width - 20, _visualizationContainer.Height - 50),
                 Visible = false,
                 BackColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle
+                BorderStyle = BorderStyle.FixedSingle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
             };
             _graphVisualization.Paint += GraphVisualization_Paint;
-            visualizationPanel.Controls.Add(_graphVisualization);
+            _visualizationContainer.Controls.Add(_graphVisualization);
+
+            // Visualization title label
+            var vizTitleLabel = new Label
+            {
+                Location = new Point(10, 10),
+                Size = new Size(_visualizationContainer.Width - 20, 25),
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(52, 73, 94),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+            };
+            _visualizationContainer.Controls.Add(vizTitleLabel);
+            _visualizationContainer.Tag = vizTitleLabel; // Store reference
         }
 
         private void LoadServiceRequests()
@@ -388,20 +417,32 @@ namespace MunicipalServicesApp.UI.Forms
 
                 if (chronologicalRequests.Count > 0)
                 {
-                    var rootNode = new TreeNode("BST Root: " + chronologicalRequests[0].Title.Substring(0, 20) + "...");
+                    // Safe substring for root node
+                    var firstTitle = chronologicalRequests[0].Title;
+                    var rootTitle = firstTitle.Length > 20 ? firstTitle.Substring(0, 20) + "..." : firstTitle;
+                    var rootNode = new TreeNode($"BST Root: {rootTitle}");
                     _bstTreeView.Nodes.Add(rootNode);
 
                     // Build a simple BST visualization (simplified for display)
                     for (int i = 1; i < Math.Min(chronologicalRequests.Count, 10); i++)
                     {
-                        var node = new TreeNode($"{chronologicalRequests[i].CreatedDate:MM/dd}: {chronologicalRequests[i].Title.Substring(0, 15)}...");
+                        var request = chronologicalRequests[i];
+                        var displayTitle = request.Title.Length > 15 ? request.Title.Substring(0, 15) + "..." : request.Title;
+                        var nodeText = $"{request.CreatedDate:MM/dd}: {displayTitle}";
+                        var node = new TreeNode(nodeText);
+
+                        // Add some structure to simulate BST
                         if (i % 2 == 0)
-                            rootNode.Nodes.Add(node);
+                            rootNode.Nodes.Add(node); // Left child
                         else
-                            rootNode.Nodes.Add(node);
+                            rootNode.Nodes.Add(node); // Right child (simplified)
                     }
 
                     _bstTreeView.ExpandAll();
+                }
+                else
+                {
+                    _bstTreeView.Nodes.Add("No requests available for BST visualization");
                 }
 
                 ShowVisualization(_bstTreeView, "Binary Search Tree - Chronological Order");
@@ -421,16 +462,25 @@ namespace MunicipalServicesApp.UI.Forms
 
                 if (highPriorityRequests.Count > 0)
                 {
-                    var rootNode = new TreeNode($"AVL Root: Priority {highPriorityRequests[0].Priority} - {highPriorityRequests[0].Title.Substring(0, 20)}...");
+                    // Safe substring for root node
+                    var firstTitle = highPriorityRequests[0].Title;
+                    var rootTitle = firstTitle.Length > 20 ? firstTitle.Substring(0, 20) + "..." : firstTitle;
+                    var rootNode = new TreeNode($"AVL Root: Priority {highPriorityRequests[0].Priority} - {rootTitle}");
                     _avlTreeView.Nodes.Add(rootNode);
 
                     foreach (var request in highPriorityRequests.Take(5))
                     {
-                        var node = new TreeNode($"Priority {request.Priority}: {request.Title.Substring(0, 15)}...");
+                        // Safe substring for child nodes
+                        var displayTitle = request.Title.Length > 15 ? request.Title.Substring(0, 15) + "..." : request.Title;
+                        var node = new TreeNode($"Priority {request.Priority}: {displayTitle}");
                         rootNode.Nodes.Add(node);
                     }
 
                     _avlTreeView.ExpandAll();
+                }
+                else
+                {
+                    _avlTreeView.Nodes.Add("No high priority requests available");
                 }
 
                 ShowVisualization(_avlTreeView, "AVL Tree - High Priority Requests");
@@ -469,7 +519,7 @@ namespace MunicipalServicesApp.UI.Forms
             // Simple graph visualization
             var nodePositions = new Dictionary<string, Point>();
             var center = new Point(_graphVisualization.Width / 2, _graphVisualization.Height / 2);
-            var radius = Math.Min(center.X, center.Y) - 50;
+            var radius = Math.Min(center.X, center.Y) - 20;
 
             // Position nodes in a circle
             var departments = departmentNetwork.SelectMany(x => new[] { x.from, x.to }).Distinct().ToList();
@@ -511,11 +561,12 @@ namespace MunicipalServicesApp.UI.Forms
                 foreach (var dept in departments)
                 {
                     var pos = nodePositions[dept];
-                    graphics.FillEllipse(brush, pos.X - 20, pos.Y - 20, 40, 40);
+                    var nodeSize = Math.Min(40, radius / 2);
+                    graphics.FillEllipse(brush, pos.X - nodeSize / 2, pos.Y - nodeSize / 2, nodeSize, nodeSize);
                     graphics.DrawString(dept,
                         new Font("Arial", 8, FontStyle.Bold),
                         Brushes.White,
-                        pos.X - 18,
+                        pos.X - nodeSize / 2 + 2,
                         pos.Y - 8);
                 }
             }
@@ -534,8 +585,7 @@ namespace MunicipalServicesApp.UI.Forms
                       $"Status: {nextPriorityRequest.Status}"
                     : "No pending high priority requests";
 
-
-                UIHelper.ShowInfoMessage(message); // Removed the second argument to match the method signature
+                UIHelper.ShowInfoMessage(message);
             }
             catch (Exception ex)
             {
@@ -545,14 +595,33 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void ShowVisualization(Control control, string title)
         {
-            // Hide all visualizations
+            // Hide all visualizations and show details rich text box
+            _visualizationContainer.Visible = true;
+            detailsRichTextBox.Visible = false;
+
             _bstTreeView.Visible = false;
             _avlTreeView.Visible = false;
             _graphVisualization.Visible = false;
 
             // Show selected visualization
             control.Visible = true;
-            visualizationTitleLabel.Text = title;
+
+            // Update title
+            var titleLabel = _visualizationContainer.Tag as Label;
+            if (titleLabel != null)
+            {
+                titleLabel.Text = title;
+            }
+        }
+
+        private void HideVisualization()
+        {
+            _visualizationContainer.Visible = false;
+            detailsRichTextBox.Visible = true;
+
+            _bstTreeView.Visible = false;
+            _avlTreeView.Visible = false;
+            _graphVisualization.Visible = false;
         }
 
         #endregion
@@ -564,6 +633,7 @@ namespace MunicipalServicesApp.UI.Forms
             if (requestsListBox.SelectedItem is RequestListBoxItem listBoxItem)
             {
                 DisplayRequestDetails(listBoxItem.Request);
+                HideVisualization(); // Show details when selecting a request
             }
         }
 
@@ -610,6 +680,12 @@ namespace MunicipalServicesApp.UI.Forms
         private void ServiceRequestStatusForm_Load(object sender, EventArgs e)
         {
             UpdateStatistics();
+            AdjustLayout();
+        }
+
+        private void ServiceRequestStatusForm_Resize(object sender, EventArgs e)
+        {
+            AdjustLayout();
         }
 
         private void ServiceRequestStatusForm_KeyDown(object sender, KeyEventArgs e)
@@ -680,6 +756,79 @@ namespace MunicipalServicesApp.UI.Forms
             }
         }
 
+        private void AdjustLayout()
+        {
+            if (this.Width <= 0 || this.Height <= 0) return;
+
+            try
+            {
+                // Enable auto-scroll on main panel when content is too large
+                mainPanel.AutoScroll = true;
+                mainPanel.AutoScrollMinSize = new Size(0, 700); // Minimum scrollable height
+
+                // Calculate dynamic sizes based on form size
+                int margin = 20;
+                int availableWidth = Math.Max(800, this.ClientSize.Width - (margin * 2));
+                int availableHeight = Math.Max(600, this.ClientSize.Height - headerPanel.Height - statsPanel.Height - (margin * 2));
+
+                // Adjust main panel
+                mainPanel.Location = new Point(margin, headerPanel.Height + margin);
+                mainPanel.Size = new Size(availableWidth, availableHeight);
+
+                // Adjust panels within main panel
+                int panelWidth = availableWidth;
+                int searchHeight = 50;
+                int filterHeight = 50;
+                int contentHeight = Math.Max(400, availableHeight - searchHeight - filterHeight - 150);
+                int buttonHeight = 50;
+
+                // Search panel (now includes action buttons)
+                searchPanel.Location = new Point(0, 0);
+                searchPanel.Size = new Size(panelWidth, searchHeight);
+
+                // Position action buttons in search panel
+                trackRequestButton.Location = new Point(panelWidth - 230, 12); // Right-aligned
+                refreshButton.Location = new Point(panelWidth - 100, 12);     // Right-aligned
+
+                // Filter panel
+                filterPanel.Location = new Point(0, searchHeight);
+                filterPanel.Size = new Size(panelWidth, filterHeight);
+
+                // Content panels (requests and details)
+                int contentTop = searchHeight + filterHeight + 10;
+                int requestsWidth = Math.Min(400, panelWidth / 2 - 15);
+                int detailsWidth = panelWidth - requestsWidth - 10;
+
+                requestsPanel.Location = new Point(0, contentTop);
+                requestsPanel.Size = new Size(requestsWidth, contentHeight);
+
+                detailsPanel.Location = new Point(requestsWidth + 10, contentTop);
+                detailsPanel.Size = new Size(detailsWidth, contentHeight);
+
+                // Button panel at bottom (only back button)
+                buttonPanel.Location = new Point(0, contentTop + contentHeight + 10);
+                buttonPanel.Size = new Size(panelWidth, buttonHeight);
+
+                // Position back button at bottom right
+                backButton.Location = new Point(panelWidth - 110, 10);
+
+                // Update visualization container size
+                if (_visualizationContainer != null)
+                {
+                    _visualizationContainer.Size = new Size(detailsPanel.Width - 20, detailsPanel.Height - 20);
+                }
+
+                // Refresh controls
+                mainPanel.Invalidate();
+                detailsPanel.Invalidate();
+            }
+            catch (Exception ex)
+            {
+                // Silently handle layout errors during resize
+                System.Diagnostics.Debug.WriteLine($"Layout adjustment error: {ex.Message}");
+            }
+        }
+
         #endregion
 
         // Helper class for list box items
@@ -693,6 +842,5 @@ namespace MunicipalServicesApp.UI.Forms
                 return DisplayText;
             }
         }
-
     }
 }
