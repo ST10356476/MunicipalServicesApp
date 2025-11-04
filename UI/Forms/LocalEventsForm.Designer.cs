@@ -64,7 +64,7 @@ namespace MunicipalServicesApp.UI.Forms
         private System.Windows.Forms.Panel statusPanel;
         private System.Windows.Forms.Label statusLabel;
 
-        #region Windows Form Designer generated code
+        #region Windows Form Designer code
 
         /// <summary>
         /// Required method for Designer support - do not modify

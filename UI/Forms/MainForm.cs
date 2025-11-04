@@ -352,7 +352,7 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void HideMainContent()
         {
-            // Just hide the panels, don't remove them
+            // Hides the panels, don't remove them
             sidebarPanel.Visible = false;
             headerPanel.Visible = false;
             mainContentPanel.Visible = false;
@@ -491,7 +491,7 @@ namespace MunicipalServicesApp.UI.Forms
         private void ShowAbout(object sender, EventArgs e)
         {
             var aboutMessage = "Municipal Services Application\n" +
-                              "Version 3.0 - Advanced Edition\n\n" +
+                              "Version 3.0 \n\n" +
                               "Developed for South African Municipal Services\n" +
                               "Streamlining citizen engagement and service delivery\n\n" +
                               "Features:\n" +
@@ -641,7 +641,7 @@ namespace MunicipalServicesApp.UI.Forms
 
         private void MainForm_Load_1(object sender, EventArgs e)
         {
-            // Initialization code if needed
+            // Initialization code
         }
     }
 }

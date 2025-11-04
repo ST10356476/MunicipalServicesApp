@@ -18,7 +18,7 @@ namespace MunicipalServicesApp.UI.Forms
         private List<ServiceRequest> _allRequests;
         private string _currentUserId = "default_user";
 
-        // Visualization controls - now placed in details area
+        // Visualization controls
         private TreeView _bstTreeView;
         private TreeView _avlTreeView;
         private PictureBox _graphVisualization;
@@ -397,7 +397,7 @@ namespace MunicipalServicesApp.UI.Forms
             // Apply priority filter
             if (priorityFilterComboBox.SelectedIndex > 0)
             {
-                var selectedPriority = priorityFilterComboBox.SelectedIndex; // 1=Critical, 2=High, etc.
+                var selectedPriority = priorityFilterComboBox.SelectedIndex; // 1=Critical, 2=High,.
                 filteredRequests = filteredRequests.Where(r => r.Priority == selectedPriority).ToList();
             }
 
